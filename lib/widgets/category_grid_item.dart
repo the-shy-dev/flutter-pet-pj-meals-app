@@ -8,11 +8,6 @@ class CategoryGridItem extends StatelessWidget {
     required this.category,
     required this.onSelectCategory,
   });
-  const CategoryGridItem({
-    super.key,
-    required this.category,
-    required this.onSelectCategory,
-  });
 
   final Category category;
   final void Function() onSelectCategory;
