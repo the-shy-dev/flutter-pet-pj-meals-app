@@ -6,6 +6,7 @@ import 'package:meals/screens/categories.dart';
 import 'package:meals/screens/filters.dart';
 import 'package:meals/screens/meals.dart';
 import 'package:meals/widgets/main_drawer.dart';
+import 'package:meals/screens/add_recipe.dart';
 
 const kInitialFilters = {
   Filter.glutenFree: false,
@@ -27,6 +28,7 @@ class _TabsScreenState extends State<TabsScreen> {
   int _selectedPageIndex = 0;
   final List<Meal> _favoriteMeals = [];
   Map<Filter, bool> _selectedFilters = kInitialFilters;
+  final List<Meal> _userMeals = [];
 
   void _showInfoMessage(String message) {
     ScaffoldMessenger.of(context).clearSnackBars();
@@ -69,16 +71,32 @@ class _TabsScreenState extends State<TabsScreen> {
           ),
         ),
       );
-
       setState(() {
         _selectedFilters = result ?? kInitialFilters;
       });
+    } else if (identifier == 'add-recipe') {
+      await Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (ctx) => AddRecipeScreen(
+            onAddRecipe: _addUserMeal,
+          ),
+        ),
+      );
+      setState(() {}); // Refresh after adding
     }
+  }
+
+  void _addUserMeal(Meal meal) {
+    setState(() {
+      _userMeals.add(meal);
+    });
+    _showInfoMessage('Recipe added!');
   }
 
   @override
   Widget build(BuildContext context) {
-    final availableMeals = dummyMeals.where((meal) {
+    final allMeals = [...dummyMeals, ..._userMeals];
+    final availableMeals = allMeals.where((meal) {
       if (_selectedFilters[Filter.glutenFree]! && !meal.isGlutenFree) {
         return false;
       }

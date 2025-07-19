@@ -61,6 +61,23 @@ class MainDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(
+              Icons.add,
+              size: 26,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
+            title: Text(
+              'Add Recipe',
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                    color: Theme.of(context).colorScheme.onSurface,
+                    fontSize: 24,
+                  ),
+            ),
+            onTap: () {
+              onSelectScreen('add-recipe');
+            },
+          ),
+          ListTile(
+            leading: Icon(
               Icons.settings,
               size: 26,
               color: Theme.of(context).colorScheme.onSurface,
